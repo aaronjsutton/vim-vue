@@ -54,7 +54,7 @@ let s:languages = [
 
 for s:language in s:languages
   let s:attr_pattern = has_key(s:language, 'attr_pattern') ? s:language.attr_pattern : s:attr('lang', s:language.name)
-  let s:start_pattern = '<' . s:language.tag . '\>\_[^>]*' . s:attr_pattern . '\_[^>]*>'
+  let s:start_pattern = '\<\_[^<]' . s:language.tag . '\>\_[^>]*' . s:attr_pattern . '\_[^>]*>'
 
   if s:should_register(s:language.name, s:start_pattern)
     execute 'syntax include @' . s:language.name . ' syntax/' . s:language.name . '.vim'
@@ -70,7 +70,7 @@ endfor
 
 syn region  vueSurroundingTag   contained start=+<\(script\|style\|template\)+ end=+>+ fold contains=htmlTagN,htmlString,htmlArg,htmlValue,htmlTagError,htmlEvent
 syn keyword htmlSpecialTagName  contained template
-syn keyword htmlArg             contained scoped ts
+syn keyword htmlArg             contained scoped ts setup
 syn match   htmlArg "[@v:][-:.0-9_a-z]*\>" contained
 
 syntax sync fromstart
